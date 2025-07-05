@@ -3,6 +3,7 @@ imperio
 *.exe
 *.out
 *.test
+bin
 
 # Build and cache
 /dist

@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: imperio_postgres
+    environment:
+      POSTGRES_DB: imperio_db
+      POSTGRES_USER: imperio_user
+      POSTGRES_PASSWORD: secret123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U imperio_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mysql:
+    image: mysql:8
+    container_name: imperio_mysql
+    environment:
+      MYSQL_DATABASE: imperio_db
+      MYSQL_ROOT_PASSWORD: secret123
+      MYSQL_USER: imperio_user
+      MYSQL_PASSWORD: secret123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  imperio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: imperio_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - ./schema.yaml:/app/schema.yaml:ro
+    environment:
+      - CONFIG=config.yaml
+      - DB_TYPE=postgres # or mysql
+
+volumes:
+  pgdata:
+  mysqldata:
