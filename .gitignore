@@ -1,0 +1,52 @@
+# Binaries
+imperio
+*.exe
+*.out
+*.test
+
+# Build and cache
+/dist
+/build
+/bin
+/tmp
+*.log
+
+# IDE/editor-specific
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Dependency/vendor (if not using Go modules)
+vendor/
+
+# Go module cache (only necessary if you vendor)
+Gopkg.lock
+Gopkg.toml
+
+# Generated mocks (optional, customize as needed)
+**/mocks/
+
+# Test coverage
+coverage.*
+*.coverprofile
+*.cover.out
+
+# Configs / secrets (optional — only if you're not committing them)
+*.local.yaml
+config.yaml
+.env
+.env.*
+*.secret.*
+
+# OS-specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+*.bak
+*.tmp
+*.old
